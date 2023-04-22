@@ -42,6 +42,7 @@ function AlternatePowerBar_OnEvent(self, event, arg1)
 	if ( event == "UNIT_DISPLAYPOWER" ) then
 		AlternatePowerBar_UpdatePowerType(self);
 	elseif ( event=="PLAYER_ENTERING_WORLD" ) then
+		AlternatePowerBar_Initialize(self);
 		AlternatePowerBar_UpdatePowerType(self);
 		AlternatePowerBar_UpdateMaxValues(self);
 		AlternatePowerBar_UpdateValue(self);
