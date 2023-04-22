@@ -14,6 +14,17 @@ function AlternatePowerBar_Initialize(self)
 		self.powerName = ADDITIONAL_POWER_BAR_NAME;
 		self.powerIndex = ADDITIONAL_POWER_BAR_INDEX;
 	end
+
+	local secondaryClass = UnitClassSecondary("player");
+	-- Warrior (Rage)
+	if ( secondaryClass == 1 ) then
+		self.powerName = "RAGE";
+		self.powerIndex = 1;
+	-- Rogue (Energy)
+	elseif ( secondaryClass == 4 ) then
+		self.powerName = "ENERGY";
+		self.powerIndex = 3;
+	end
 	
 	self:RegisterEvent("UNIT_"..self.powerName);
 	self:RegisterEvent("UNIT_MAX"..self.powerName);
@@ -31,13 +42,13 @@ function AlternatePowerBar_OnEvent(self, event, arg1)
 	if ( event == "UNIT_DISPLAYPOWER" ) then
 		AlternatePowerBar_UpdatePowerType(self);
 	elseif ( event=="PLAYER_ENTERING_WORLD" ) then
+		AlternatePowerBar_UpdatePowerType(self);
 		AlternatePowerBar_UpdateMaxValues(self);
 		AlternatePowerBar_UpdateValue(self);
-		AlternatePowerBar_UpdatePowerType(self);
-	elseif( (event == "UNIT_MAXMANA") and (arg1 == parent.unit) ) then
+	elseif( (event == "UNIT_MAXMANA" or event == "UNIT_MAXRAGE" or event == "UNIT_MAXENERGY") and (arg1 == parent.unit) ) then
 		AlternatePowerBar_UpdateMaxValues(self);
 	elseif ( self:IsShown() ) then
-		if ( (event == "UNIT_MANA") and (arg1 == parent.unit) ) then
+		if ( (event == "UNIT_MANA" or event == "UNIT_RAGE" or event == "UNIT_ENERGY") and (arg1 == parent.unit) ) then
 			AlternatePowerBar_UpdateValue(self);
 		end
 	end
