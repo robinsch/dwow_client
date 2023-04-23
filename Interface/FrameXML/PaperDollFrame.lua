@@ -315,7 +315,7 @@ function PaperDollFrame_SetStat(statFrame, statIndex)
 	elseif ( statIndex == 4 ) then
 		local baseInt = min(20, effectiveStat);
 		local moreInt = effectiveStat - baseInt
-		if ( UnitHasMana("player") ) then
+		if ( UnitHasMana("player") or UnitHasManaSecondary("player") ) then
 			statFrame.tooltip2 = format(statFrame.tooltip2, baseInt + moreInt*MANA_PER_INTELLECT, GetSpellCritChanceFromIntellect("player"));
 		else
 			statFrame.tooltip2 = nil;
@@ -330,7 +330,7 @@ function PaperDollFrame_SetStat(statFrame, statIndex)
 	elseif ( statIndex == 5 ) then
 		-- All mana regen stats are displayed as mana/5 sec.
 		statFrame.tooltip2 = format(statFrame.tooltip2, GetUnitHealthRegenRateFromSpirit("player"));
-		if ( UnitHasMana("player") ) then
+		if ( UnitHasMana("player") or UnitHasManaSecondary("player") ) then
 			local regen = GetUnitManaRegenRateFromSpirit("player");
 			regen = floor( regen * 5.0 );
 			statFrame.tooltip2 = statFrame.tooltip2.."\n"..format(MANA_REGEN_FROM_SPIRIT, regen);
@@ -1026,7 +1026,7 @@ end
 function PaperDollFrame_SetManaRegen(statFrame)
 	_G[statFrame:GetName().."Label"]:SetText(format(STAT_FORMAT, MANA_REGEN));
 	local text = _G[statFrame:GetName().."StatText"];
-	if ( not UnitHasMana("player") ) then
+	if ( not UnitHasMana("player") and not UnitHasManaSecondary("player") ) then
 		text:SetText(NOT_APPLICABLE);
 		statFrame.tooltip = nil;
 		return;

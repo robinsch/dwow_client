@@ -24,6 +24,12 @@ function AlternatePowerBar_Initialize(self)
 	elseif ( secondaryClass == 4 ) then
 		self.powerName = "ENERGY";
 		self.powerIndex = 3;
+	-- Mana
+	elseif (secondaryClass ~= 0 ) then
+		if ( UnitClass("player") == "Warrior" or UnitClass("player") == "Rogue" ) then
+			self.powerName = "MANA";
+			self.powerIndex = 0;
+		end
 	end
 	
 	self:RegisterEvent("UNIT_"..self.powerName);
