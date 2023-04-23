@@ -715,7 +715,7 @@
           </Anchor>
         </Anchors>
       </Button>
-      <Button name="PlayerTalentFrameTab7" inherits="PlayerGlyphTabTemplate" text="GLYPHS" id="4">
+      <Button name="PlayerTalentFrameTab7" inherits="PlayerGlyphTabTemplate" text="GLYPHS" id="7">
         <Anchors>
           <Anchor point="LEFT" relativeTo="PlayerTalentFrameTab6" relativePoint="RIGHT">
             <Offset>
