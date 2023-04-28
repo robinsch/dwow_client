@@ -875,6 +875,10 @@ function GuildStatus_Update()
 
 	-- Get selected guild member info
 	name, rank, rankIndex, level, class, zone, note, officernote, online = GetGuildRosterInfo(GetGuildRosterSelection());
+	local secondaryClass = GetGuildRosterAddon(GetGuildRosterSelection());
+	if ( secondaryClass ) then
+		class = class.." / "..secondaryClass;
+	end
 	GuildFrame.selectedName = name;
 	-- If there's a selected guildmember
 	if ( GetGuildRosterSelection() > 0 ) then
@@ -1012,6 +1016,10 @@ function GuildStatus_Update()
 			button = _G["GuildFrameButton"..i];
 			button.guildIndex = guildIndex;
 			name, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName = GetGuildRosterInfo(guildIndex);
+			local secondaryClass = GetGuildRosterAddon(guildIndex);
+			if ( secondaryClass ) then
+				class = class.." / "..secondaryClass;
+			end
 
 			if ( not online ) then
 				buttonText = _G["GuildFrameButton"..i.."Name"];
