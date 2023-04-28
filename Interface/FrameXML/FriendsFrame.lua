@@ -790,6 +790,10 @@ function WhoList_Update()
 		button = _G["WhoFrameButton"..i];
 		button.whoIndex = whoIndex;
 		name, guild, level, race, class, zone, classFileName = GetWhoInfo(whoIndex);
+		local classSecondary = GetWhoAddon(whoIndex);
+		if ( classSecondary ) then
+			class = class.." / "..classSecondary;
+		end
 		columnTable = { zone, guild, race };
 
 		if ( classFileName ) then
@@ -2137,6 +2141,7 @@ function FriendsFrame_SetButton(button, index, firstButton)
 	button.id = FriendButtons[index].id;
 	if ( FriendButtons[index].buttonType == FRIENDS_BUTTON_TYPE_WOW ) then
 		local name, level, class, area, connected, status, note = GetFriendInfo(FriendButtons[index].id);
+		local secondaryClass = GetFriendClassSecondary(FriendButtons[index].id);
 		if ( connected ) then
 			button.background:SetTexture(FRIENDS_WOW_BACKGROUND_COLOR.r, FRIENDS_WOW_BACKGROUND_COLOR.g, FRIENDS_WOW_BACKGROUND_COLOR.b, FRIENDS_WOW_BACKGROUND_COLOR.a);
 			if ( status == "" ) then
@@ -2145,6 +2150,9 @@ function FriendsFrame_SetButton(button, index, firstButton)
 				button.status:SetTexture(FRIENDS_TEXTURE_AFK);
 			elseif ( status == CHAT_FLAG_DND ) then
 				button.status:SetTexture(FRIENDS_TEXTURE_DND);
+			end
+			if ( secondaryClass ) then
+				class = class.." / "..secondaryClass;
 			end
 			nameText = name..", "..format(FRIENDS_LEVEL_TEMPLATE, level, class);
 			nameColor = FRIENDS_WOW_NAME_COLOR;
@@ -2435,6 +2443,10 @@ function FriendsFrameTooltip_Show(self)
 		end
 	elseif ( self.buttonType == FRIENDS_BUTTON_TYPE_WOW ) then
 		local name, level, class, area, connected, status, noteText = GetFriendInfo(self.id);
+		local secondaryClass = GetFriendClassSecondary(self.id);
+		if ( secondaryClass ) then
+			class = class.." / "..secondaryClass;
+		end
 		anchor = FriendsFrameTooltip_SetLine(FriendsTooltipHeader, nil, name);
 		if ( connected ) then
 			FriendsTooltipHeader:SetTextColor(FRIENDS_WOW_NAME_COLOR.r, FRIENDS_WOW_NAME_COLOR.g, FRIENDS_WOW_NAME_COLOR.b);
