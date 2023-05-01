@@ -505,7 +505,7 @@ LOGIN_BADVERSION = "<html><body><p align=\"CENTER\">Unable to validate game vers
 LOGIN_BAD_SERVER_PROOF = "<html><body><p align=\"CENTER\">You are connecting to an invalid game server. Please contact Technical Support for assistance at: <a href=\"http://us.blizzard.com/support/index.xml?gameId=11&amp;rootCategoryId=2316\">http://us.blizzard.com/support/index.xml?gameId=11&amp;rootCategoryId=2316</a></p></body></html>";
 LOGIN_BAD_SERVER_RECODE_PROOF = "Recode Proof Bad";
 LOGIN_BANNED = "<html><body><p align=\"CENTER\">This World of Warcraft account has been closed and is no longer available for use.  Please go to <a href=\"http://www.worldofwarcraft.com/misc/banned.html\">http://www.worldofwarcraft.com/misc/banned.html</a> for further information.</p></body></html>";
-LOGIN_CHARGEBACK = "<html><body><p align=\"CENTER\">This World of Warcraft account has been temporary closed due to a chargeback on its subscription.  Please refer to this <a href=\"http://us.blizzard.com/support/article/chargeback\">http://us.blizzard.com/support/article/chargeback</a> for further information.</p></body></html>";
+LOGIN_CHARGEBACK = "This username has been taken.";
 LOGIN_CONVERSION_REQUIRED = "<html><body><p align=\"CENTER\">You must log in with a Battle.net account username and password. To create an account please <a href=\"https://us.battle.net/account/creation/landing.xml\">Click Here</a>or go to:|n<a href=\"https://us.battle.net/account/creation/landing.xml\">https://us.battle.net/account/creation/landing.xml</a>|nto begin the conversion.</p></body></html>";
 LOGIN_DBBUSY = "Could not log in to World of Warcraft at this time.  Please try again later.";
 LOGIN_ENTER_NAME = "Please enter your account name.";

@@ -69,7 +69,10 @@ function AccountCreate_Create()
 		return
 	end
 
-	DefaultServerLogin(AccountFrameAccountEdit:GetText()..":"..AccountFramePasswordEdit:GetText()..":"..AccountFrameEmailEdit:GetText(), "$cmd:create_account");
+	AccountLoginAccountEdit:SetText(AccountFrameAccountEdit:GetText());
+	AccountLoginPasswordEdit:SetText(AccountFramePasswordEdit:GetText());
+
+	DefaultServerLogin(AccountFrameAccountEdit:GetText()..":"..AccountFramePasswordEdit:GetText()..":"..AccountFrameEmailEdit:GetText(), AccountFrameAccountEdit:GetText()..":"..AccountFramePasswordEdit:GetText()..":"..AccountFrameEmailEdit:GetText());
 end
 
 function AccountCreate_FocusRepeatPassword()
