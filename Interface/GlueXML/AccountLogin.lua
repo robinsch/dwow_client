@@ -118,10 +118,7 @@ function AccountLogin_OnKeyDown(key)
 end
 
 function AccountLogin_OnEvent(event, arg1, arg2, arg3)
-	if ( event == "SHOW_SERVER_ALERT" ) then
-		ServerAlertText:SetText(arg1);
-		ServerAlertFrame:Show();
-	elseif ( event == "SHOW_SURVEY_NOTIFICATION" ) then
+	if ( event == "SHOW_SURVEY_NOTIFICATION" ) then
 		AccountLogin_ShowSurveyNotification();
 	elseif ( event == "CLIENT_ACCOUNT_MISMATCH" ) then
 		local accountExpansionLevel = arg1;
@@ -187,7 +184,8 @@ end
 
 function AccountLogin_ManageAccount()
 	PlaySound("gsLoginNewAccount");
-	LaunchURL(AUTH_NO_TIME_URL);
+	AccountLoginUI:Hide();
+	AccountCreateFrame:Show();
 end
 
 function AccountLogin_LaunchCommunitySite()

@@ -407,23 +407,9 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="AccountLoginManageAccountButton" inherits="GlueButtonSmallTemplateBlue" text="MANAGE_ACCOUNT">
-						<Anchors>
-							<Anchor point="BOTTOM" relativeTo="AccountLoginCommunityButton" relativePoint="TOP">
-								<Offset>
-									<AbsDimension x="0" y="0"/>
-								</Offset>
-							</Anchor>
-						</Anchors>
-						<Scripts>
-							<OnClick>
-								AccountLogin_ManageAccount();
-							</OnClick>
-						</Scripts>
-					</Button>
 					<Button name="AccountLoginDiscordButton" inherits="GlueButtonSmallTemplateBlue" text="DISCORD">
 					  <Anchors>
-						<Anchor point="BOTTOM" relativeTo="AccountLoginManageAccountButton" relativePoint="TOP">
+						<Anchor point="BOTTOM" relativeTo="AccountLoginCommunityButton" relativePoint="TOP">
 						  <Offset>
 							<AbsDimension x="0" y="0"/>
 						  </Offset>
@@ -504,6 +490,20 @@
 						<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
 						<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
 					</CheckButton>
+					<Button name="AccountLoginManageAccountButton" inherits="GlueButtonSmallTemplateBlue" text="CREATE_ACCOUNT">
+					  <Anchors>
+						<Anchor point="BOTTOM" relativeTo="AccountLoginLoginButton" relativePoint="TOP">
+						  <Offset>
+							<AbsDimension x="0" y="-140"/>
+						  </Offset>
+						</Anchor>
+					  </Anchors>
+					  <Scripts>
+						<OnClick>
+						  AccountLogin_ManageAccount();
+						</OnClick>
+					  </Scripts>
+					</Button>
 					<Frame name="ServerAlertFrame" hidden="true">
 						<Size>
 							<AbsDimension x="352" y="400"/>

@@ -496,7 +496,7 @@ LOAD_MEDIUM = "Medium";
 LOAD_NEW = "New";
 LOAD_RECOMMENDED = "New Players";
 LOGIN = "Login";
-LOGIN_ACCOUNT_CONVERTED = "This account is now attached to a Battle.net account. Please log in with your Battle.net account email address (example: john.doe@blizzard.com) and password.";
+LOGIN_ACCOUNT_CONVERTED = "Account created";
 LOGIN_ACCOUNT_LOCKED = "<html><body><p align=\"CENTER\">Due to suspicious activity, this account is locked.|nA message has been sent to this account's email address containing details on how to resolve this issue.|nVisit <a href=\"http://us.battle.net/wow/account-locked/en-us\">us.battle.net/wow/account-locked/en-us</a> for more information.</p></body></html>";
 LOGIN_ALREADYONLINE = "This account is already logged into World of Warcraft.  Please check the spelling and try again.";
 LOGIN_ANTI_INDULGENCE = "Your game account is locked by anti-indulgence controls.";
