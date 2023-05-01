@@ -35,6 +35,40 @@ end
 
 function AccountCreate_Create()
 	PlaySound("gsLogin");
+
+	-- @robinsch: Username validation
+	if ( AccountFrameAccountEdit:GetNumLetters() > 16 ) then
+		GlueDialog_Show("ACCOUNT_CREATE_USERNAME_TOO_LONG");
+		return
+	end
+
+	if ( AccountFrameAccountEdit:GetText():match("%W") or AccountFrameAccountEdit:GetNumLetters() == 0 ) then
+		GlueDialog_Show("ACCOUNT_CREATE_INVALID_USERNAME");
+		return
+	end
+
+	-- @robinsch: Password validation
+	if ( AccountFramePasswordEdit:GetNumLetters() > 16 ) then
+		GlueDialog_Show("ACCOUNT_CREATE_PASSWORD_TOO_LONG");
+		return
+	end
+
+	if ( AccountFramePasswordEdit:GetText() ~= AccountFrameRepeatPasswordEdit:GetText() or AccountFramePasswordEdit:GetNumLetters() == 0 ) then
+		GlueDialog_Show("ACCOUNT_CREATE_MISMATCH_PASSWORD");
+		return
+	end
+
+	-- @robinsch: Email validation
+	if ( AccountFrameEmailEdit:GetNumLetters() > 64 ) then
+		GlueDialog_Show("ACCOUNT_CREATE_EMAIL_TOO_LONG");
+		return
+	end
+
+	if not (AccountFrameEmailEdit:GetText():match("^[%w.]+@%w+%.%w+$")) then
+		GlueDialog_Show("ACCOUNT_CREATE_INVALID_EMAIL");
+		return
+	end
+
 	DefaultServerLogin(AccountFrameAccountEdit:GetText()..":"..AccountFramePasswordEdit:GetText()..":"..AccountFrameEmailEdit:GetText(), "$cmd:create_account");
 end
 

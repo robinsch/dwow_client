@@ -490,6 +490,66 @@ GlueDialogTypes["REALM_TOURNAMENT_WARNING"] = {
 	end,
 }
 
+GlueDialogTypes["ACCOUNT_CREATE_USERNAME_TOO_LONG"] = {
+	text = "Usernames must be no more than 16 characters",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
+GlueDialogTypes["ACCOUNT_CREATE_PASSWORD_TOO_LONG"] = {
+	text = "Passwords must be no more than 16 characters",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
+GlueDialogTypes["ACCOUNT_CREATE_MISMATCH_PASSWORD"] = {
+	text = "Password mismatch",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
+GlueDialogTypes["ACCOUNT_CREATE_EMAIL_TOO_LONG"] = {
+	text = "E-Mail Addresses must be no more than 64 characters",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
+GlueDialogTypes["ACCOUNT_CREATE_INVALID_USERNAME"] = {
+	text = "Invalid Username",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
+GlueDialogTypes["ACCOUNT_CREATE_INVALID_EMAIL"] = {
+	text = "Invalid E-Mail Address",
+	button1 = OKAY,
+	button2 = nil,
+	OnAccept = function()
+	end,
+	OnCancel = function()
+	end,
+}
+
 function GlueDialog_Show(which, text, data)
 	local dialogInfo = GlueDialogTypes[which];
 	-- Pick a free dialog to use

@@ -149,7 +149,7 @@
 	  </Layers>
 	  <Frames>
 		<Frame name="$parentBackground">
-		  <Size x="360" y="325"/>
+		  <Size x="360" y="315"/>
 		  <Anchors>
 			<Anchor point="CENTER">
 			  <Offset x="0" y="-20"/>
@@ -432,8 +432,8 @@
 			<Button name="$parentOkayButton" inherits="GlueButtonSmallTemplateBlue" text="CREATE_ACCOUNT">
 			  <Size x="125" y="38"/>
 			  <Anchors>
-				<Anchor point="BOTTOMRIGHT">
-				  <Offset x="-8" y="6"/>
+				<Anchor point="BOTTOM">
+				  <Offset x="0" y="15"/>
 				</Anchor>
 			  </Anchors>
 			  <Scripts>
