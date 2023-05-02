@@ -725,6 +725,9 @@ function GlueDialog_OnEvent(self, event, arg1, arg2, arg3)
 		GlueDialog_Show(arg1, arg2, arg3);
 		if ( arg2 == "Account created") then
 			AccountCreate_Exit();
+		elseif ( arg2 == "This username has been taken." ) then
+			AccountLoginAccountEdit:SetText("");
+			AccountLoginAccountEdit:SetFocus();
 		end
 	elseif ( event == "UPDATE_STATUS_DIALOG" and arg1 and (strlen(arg1) > 0) ) then
 		GlueDialogText:SetText(arg1);
