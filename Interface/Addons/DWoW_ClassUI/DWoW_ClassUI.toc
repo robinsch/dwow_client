@@ -1,0 +1,5 @@
+## Interface: 30300
+## Title: DWoW_ClassUI
+## Version: 1.00
+DWoW_ClassUI.xml
+DWoW_ClassUI.lua
