@@ -181,7 +181,7 @@ function TalentFrame_Update(TalentFrame)
 				end
 
 				-- is this talent's tier unlocked?
-				if ( ((tier - 1) * (TalentFrame.pet and PET_TALENTS_PER_TIER or PLAYER_TALENTS_PER_TIER) <= tabPointsSpent) ) then
+				if ( ((tier - 1) * (TalentFrame.pet and PET_TALENTS_PER_TIER or PLAYER_TALENTS_PER_TIER) <= UnitLevel("player")) ) then
 					tierUnlocked = 1;
 				else
 					tierUnlocked = nil;
