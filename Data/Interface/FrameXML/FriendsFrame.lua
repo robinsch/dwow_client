@@ -790,9 +790,11 @@ function WhoList_Update()
 		button = _G["WhoFrameButton"..i];
 		button.whoIndex = whoIndex;
 		name, guild, level, race, class, zone, classFileName = GetWhoInfo(whoIndex);
-		local classSecondary = GetWhoAddon(whoIndex);
-		if ( classSecondary ) then
-			class = class.." / "..classSecondary;
+		if ( name ) then
+			local classSecondary = GetWhoAddon(name);
+			if ( classSecondary ) then
+				class = class.." / "..classSecondary;
+			end
 		end
 		columnTable = { zone, guild, race };
 
