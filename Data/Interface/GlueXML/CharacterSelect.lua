@@ -3,8 +3,8 @@ CHARACTER_SELECT_INITIAL_FACING = nil;
 
 CHARACTER_ROTATION_CONSTANT = 0.6;
 
-MAX_CHARACTERS_DISPLAYED = 10;
-MAX_CHARACTERS_PER_REALM = 10;
+MAX_CHARACTERS_DISPLAYED = 50;
+MAX_CHARACTERS_PER_REALM = 50;
 
 
 function CharacterSelect_OnLoad(self)
@@ -36,7 +36,25 @@ function CharacterSelect_OnLoad(self)
 	local backdropColor = DEFAULT_TOOLTIP_COLOR;
 	CharacterSelectCharacterFrame:SetBackdropBorderColor(backdropColor[1], backdropColor[2], backdropColor[3]);
 	CharacterSelectCharacterFrame:SetBackdropColor(backdropColor[4], backdropColor[5], backdropColor[6], 0.85);
-	
+
+	local charSelectParent = CharacterSelectCharacterFrameScrollFrameChild
+	for i = 2, MAX_CHARACTERS_DISPLAYED do
+		local charButton = CreateFrame("Button", "CharSelectCharacterButton"..i, charSelectParent, "CharSelectCharacterButtonTemplate")
+		charButton:SetID(i)
+		charButton:SetPoint("TOP", "CharSelectCharacterButton"..(i-1), "BOTTOM", 0, 13)
+
+		local customizeButton = CreateFrame("Button", "CharSelectCharacterCustomize"..i, charButton, "CharSelectCharacterCustomizeTemplate")
+		customizeButton:SetID(i)
+		customizeButton:SetPoint("RIGHT", charButton, "LEFT", -15, 6)
+
+		local raceButton = CreateFrame("Button", "CharSelectRaceChange"..i, charButton, "CharSelectRaceChangeTemplate")
+		raceButton:SetID(i)
+		customizeButton:SetPoint("RIGHT", charButton, "LEFT", -15, 6)
+
+		local factionButton = CreateFrame("Button", "CharSelectFactionChange"..i, charButton, "CharSelectFactionChangeTemplate")
+		raceButton:SetID(i)
+		customizeButton:SetPoint("RIGHT", charButton, "LEFT", -15, 6)
+	end
 end
 
 function CharacterSelect_OnShow()
@@ -221,6 +239,16 @@ function CharacterSelect_OnUpdate(elapsed)
 			end
 		end
 	end
+
+	if floor(CharacterSelectCharacterFrame.ScrollFrame:GetVerticalScrollRange()) == 0 then
+		CharacterSelectCharacterFrame:SetWidth(270)
+		CharacterSelectCharacterFrame.ScrollFrame:SetPoint("RIGHT", -10, 0)
+		CharacterSelectDeleteButton:SetWidth(155)
+	else
+		CharacterSelectCharacterFrame:SetWidth(290)
+		CharacterSelectDeleteButton:SetWidth(175)
+		CharacterSelectCharacterFrame.ScrollFrame:SetPoint("RIGHT", -30, 0)
+	end
 end
 
 function CharacterSelect_OnKeyDown(self,key)
@@ -310,14 +338,9 @@ function UpdateCharacterList()
 	local numChars = GetNumCharacters();
 	local index = 1;
 	local coords;
+	local height = 0
 	for i=1, numChars, 1 do
 		local name, race, class, level, zone, sex, ghost, PCC, PRC, PFC = GetCharacterInfo(i);
-		if GetCharacterClassSecondary then
-			local secondaryClass = GetCharacterClassSecondary(i);
-			if ( secondaryClass ) then
-				class = class.." / "..secondaryClass;
-			end
-		end
 		local button = _G["CharSelectCharacterButton"..index];
 		if ( not name ) then
 			button:SetText("ERROR - Tell Jeremy");
@@ -334,6 +357,7 @@ function UpdateCharacterList()
 			_G["CharSelectCharacterButton"..index.."ButtonTextLocation"]:SetText(zone);
 		end
 		button:Show();
+		height = height + button:GetHeight() - 13
 
 		-- setup paid service buttons
 		_G["CharSelectCharacterCustomize"..index]:Hide();
@@ -353,9 +377,13 @@ function UpdateCharacterList()
 		end
 	end
 
+	CharacterSelectCharacterFrame.ScrollFrame.Child:SetHeight(height)
+	CharacterSelectCharacterFrame.ScrollFrame.scrollBarHideable = true
+
 	if ( numChars == 0 ) then
 		CharacterSelectDeleteButton:Disable();
 		CharSelectEnterWorldButton:Disable();
+		GlueScrollFrame_OnScrollRangeChanged(CharacterSelectCharacterFrame.ScrollFrame, 0)
 	else
 		CharacterSelectDeleteButton:Enable();
 		CharSelectEnterWorldButton:Enable();
@@ -363,6 +391,7 @@ function UpdateCharacterList()
 
 	CharacterSelect.createIndex = 0;
 	CharSelectCreateCharacterButton:Hide();	
+	CharacterSelectCharacterFrame.ScrollFrame:SetPoint("BOTTOM", 0, 15)
 	
 	local connected = IsConnectedToServer();
 	for i=index, MAX_CHARACTERS_DISPLAYED, 1 do
@@ -374,6 +403,7 @@ function UpdateCharacterList()
 				CharSelectCreateCharacterButton:SetID(index);
 				--CharSelectCreateCharacterButton:SetPoint("TOP", button, "TOP", 0, -5);
 				CharSelectCreateCharacterButton:Show();	
+				CharacterSelectCharacterFrame.ScrollFrame:SetPoint("BOTTOM", 0, 60)
 			end
 		end
 		_G["CharSelectCharacterCustomize"..index]:Hide();
@@ -437,6 +467,24 @@ function CharacterSelect_SelectCharacter(id, noCreate)
 		SetBackgroundModel(CharacterSelect,CharacterSelect.currentModel);
 
 		SelectCharacter(id);
+
+		local scrollHeight = CharacterSelectCharacterFrameScrollFrame:GetHeight()
+		local top = CharacterSelectCharacterFrameScrollFrame:GetVerticalScroll()
+		local bottom = scrollHeight + top
+		local buttonTop = (id - 1) * 57
+		local buttonBottom = id * 57
+		if top <= buttonTop and bottom >= buttonBottom then
+			return
+		else
+			local maxValue = CharacterSelectCharacterFrameScrollFrame:GetVerticalScrollRange()
+			local offset
+			if buttonBottom > bottom then
+				offset = buttonBottom - scrollHeight
+			elseif buttonTop < top then
+				offset = max(0, buttonTop)
+			end
+			CharacterSelectCharacterFrameScrollFrame:SetVerticalScroll(min(offset, maxValue))
+		end
 	end
 end
 
