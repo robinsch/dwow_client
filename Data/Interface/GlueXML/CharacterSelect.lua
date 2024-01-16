@@ -254,11 +254,11 @@ end
 function CharacterSelect_OnKeyDown(self,key)
 	if ( key == "ESCAPE" ) then
 		CharacterSelect_Exit();
-	elseif ( key == "ENTER" ) then
+	elseif ( key == "ENTER" or key == "NUMPADPLUS" ) then
 		CharacterSelect_EnterWorld();
 	elseif ( key == "PRINTSCREEN" ) then
 		Screenshot();
-	elseif ( key == "UP" or key == "LEFT" ) then
+	elseif ( key == "UP" or key == "LEFT" or key == "NUMPAD8" ) then
 		local numChars = GetNumCharacters();
 		if ( numChars > 1 ) then
 			if ( self.selectedIndex > 1 ) then
@@ -267,7 +267,7 @@ function CharacterSelect_OnKeyDown(self,key)
 				CharacterSelect_SelectCharacter(numChars);
 			end
 		end
-	elseif ( arg1 == "DOWN" or arg1 == "RIGHT" ) then
+	elseif ( arg1 == "DOWN" or arg1 == "RIGHT" or arg1 == "NUMPAD2" ) then
 		local numChars = GetNumCharacters();
 		if ( numChars > 1 ) then
 			if ( self.selectedIndex < GetNumCharacters() ) then
