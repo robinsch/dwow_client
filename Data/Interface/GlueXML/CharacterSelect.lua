@@ -341,6 +341,12 @@ function UpdateCharacterList()
 	local height = 0
 	for i=1, numChars, 1 do
 		local name, race, class, level, zone, sex, ghost, PCC, PRC, PFC = GetCharacterInfo(i);
+		if GetCharacterClassSecondary then
+			local secondaryClass = GetCharacterClassSecondary(i);
+			if ( secondaryClass ) then
+				class = class.." / "..secondaryClass;
+			end
+		end
 		local button = _G["CharSelectCharacterButton"..index];
 		if ( not name ) then
 			button:SetText("ERROR - Tell Jeremy");
