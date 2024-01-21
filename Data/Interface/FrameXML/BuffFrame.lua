@@ -525,6 +525,8 @@ function TempEnchantButton_OnClick(self, button)
 		CancelItemTempEnchantment(1);
 	elseif ( self:GetID() == 17 ) then
 		CancelItemTempEnchantment(2);
+	elseif ( self:GetID() == 18 ) then
+		CancelItemTempEnchantment(3);
 	end
 end
 
