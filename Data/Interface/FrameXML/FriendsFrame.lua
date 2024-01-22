@@ -2277,6 +2277,8 @@ function FriendsFrameStatusDropDown_ShowTooltip()
 		statusText = FRIENDS_LIST_AWAY;
 	elseif ( status == 3 ) then
 		statusText = FRIENDS_LIST_BUSY;
+	elseif ( status == 4 ) then
+		statusText = FRIENDS_LIST_OFFLINE;
 	else
 		statusText = FRIENDS_LIST_AVAILABLE;
 	end
@@ -2306,6 +2308,9 @@ function FriendsFrameStatusDropDown_Initialize()
 
 	info.text = string.format(optionText, FRIENDS_TEXTURE_DND, FRIENDS_LIST_BUSY);
 	UIDropDownMenu_AddButton(info);
+
+	info.text = string.format(optionText, FRIENDS_TEXTURE_OFFLINE, FRIENDS_LIST_OFFLINE);
+	UIDropDownMenu_AddButton(info);
 end
 
 function FriendsFrameStatusDropDown_Update(self)
@@ -2317,6 +2322,9 @@ function FriendsFrameStatusDropDown_Update(self)
 	elseif ( UnitIsDND("player") ) then
 		FriendsFrameStatusDropDownStatus:SetTexture(FRIENDS_TEXTURE_DND);
 		status = 3;
+	elseif ( FriendStatusIsOffline() ) then
+		FriendsFrameStatusDropDownStatus:SetTexture(FRIENDS_TEXTURE_OFFLINE);
+		status = 4;
 	else
 		FriendsFrameStatusDropDownStatus:SetTexture(FRIENDS_TEXTURE_ONLINE);
 		status = 1;
@@ -2329,7 +2337,7 @@ function FriendsFrame_SetOnlineStatus(button, status)
 	if ( status == FriendsFrameStatusDropDown.status ) then
 		return;
 	end
-	if ( status == 1 ) then
+	if ( status == 1 or status == 4 ) then
 		if ( UnitIsAFK("player") ) then
 			SendChatMessage("", "AFK");
 		elseif ( UnitIsDND("player") ) then
@@ -2337,9 +2345,12 @@ function FriendsFrame_SetOnlineStatus(button, status)
 		end
 	elseif ( status == 2 ) then
 		SendChatMessage("", "AFK");
-	else
+	elseif ( status == 3 ) then
 		SendChatMessage("", "DND");
 	end
+
+	FriendStatusSetOffline(status == 4);
+	FriendsFrameStatusDropDown_Update(FriendsFrameStatusDropDown);
 end
 
 function FriendsFrameBroadcastInput_OnEnterPressed(self)
