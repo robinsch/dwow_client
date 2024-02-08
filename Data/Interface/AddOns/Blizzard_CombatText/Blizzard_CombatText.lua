@@ -63,6 +63,7 @@ COMBAT_TEXT_TYPE_INFO["SPELL_AURA_START_HARMFUL"] = {r = 1, g = 0.1, b = 0.1, va
 COMBAT_TEXT_TYPE_INFO["SPELL_ACTIVE"] = {r = 1, g = 0.82, b = 0, var = "COMBAT_TEXT_SHOW_REACTIVES"};
 COMBAT_TEXT_TYPE_INFO["FACTION"] = {r = 0.1, g = 0.1, b = 1, var = "COMBAT_TEXT_SHOW_REPUTATION"};
 COMBAT_TEXT_TYPE_INFO["HEAL_CRIT"] = {r = 0.1, g = 1, b = 0.1, show = 1};
+COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL_CRIT"] = {r = 0.1, g = 1, b = 0.1, show = 1};
 COMBAT_TEXT_TYPE_INFO["HEAL"] = {r = 0.1, g = 1, b = 0.1, show = 1};
 COMBAT_TEXT_TYPE_INFO["DAMAGE_SHIELD"] = {r = 1, g = 1, b = 1};
 COMBAT_TEXT_TYPE_INFO["SPELL_DISPELLED"] = {r = 1, g = 1, b = 1};
@@ -77,6 +78,7 @@ COMBAT_TEXT_TYPE_INFO["COMBO_POINTS"] = {r = 0.1, g = 0.1, b = 1, var = "COMBAT_
 COMBAT_TEXT_TYPE_INFO["RUNE"] = {r = 0.1, g = 0.1, b = 1, var = "COMBAT_TEXT_SHOW_ENERGIZE"};
 COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL_ABSORB"] = {r = 0.1, g = 1, b = 0.1, show = 1};
 COMBAT_TEXT_TYPE_INFO["HEAL_CRIT_ABSORB"] = {r = 0.1, g = 1, b = 0.1, show = 1};
+COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL_CRIT_ABSORB"] = {r = 0.1, g = 1, b = 0.1, show = 1};
 COMBAT_TEXT_TYPE_INFO["HEAL_ABSORB"] = {r = 0.1, g = 1, b = 0.1, show = 1};
 
 COMBAT_TEXT_RUNE = {};
@@ -229,14 +231,14 @@ function CombatText_OnEvent(self, event, ...)
 		else
 			message = "+"..arg3.." "..format(ABSORB_TRAILER, arg4);
 		end
-	elseif ( messageType == "HEAL_CRIT" ) then
+	elseif ( messageType == "HEAL_CRIT" or messageType == "PERIODIC_HEAL_CRIT") then
 		displayType = "crit";
 		if ( COMBAT_TEXT_SHOW_FRIENDLY_NAMES == "1" and UnitName(self.unit) ~= data ) then
 			message = "+"..arg3.." ["..data.."]";
 		else
 			message = "+"..arg3;
 		end
-	elseif ( messageType == "HEAL_CRIT_ABSORB" ) then
+	elseif ( messageType == "HEAL_CRIT_ABSORB" or messageType == "PERIODIC_HEAL_CRIT_ABSORB" ) then
 		displayType = "crit";
 		if ( COMBAT_TEXT_SHOW_FRIENDLY_NAMES == "1" and UnitName(self.unit) ~= data ) then
 			message = "+"..arg3.." ["..data.."] "..format(ABSORB_TRAILER, arg4);
