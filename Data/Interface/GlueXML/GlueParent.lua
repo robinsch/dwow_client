@@ -43,6 +43,7 @@ GlueAmbienceTracks["SCOURGE"] = "GlueScreenUndead";
 GlueAmbienceTracks["NIGHTELF"] = "GlueScreenNightElf";
 GlueAmbienceTracks["DRAENEI"] = "GlueScreenDraenei";
 GlueAmbienceTracks["BLOODELF"] = "GlueScreenBloodElf";
+GlueAmbienceTracks["WORGEN"] = "GlueScreenIntro";
 GlueAmbienceTracks["DARKPORTAL"] = "GlueScreenIntro";
 GlueAmbienceTracks["DEATHKNIGHT"] = "GlueScreenIntro";
 GlueAmbienceTracks["CHARACTERSELECT"] = "GlueScreenIntro";
@@ -79,6 +80,11 @@ RaceLights = {
         {1,     0,  -0.46481,       -0.14320,       0.87376,    1.0,    0.00000,    0.00000,    0.00000,    2.0,    0.5835,     0.48941,    0.60000},
     },
     BLOODELF = {
+        {1,     0,  -0.82249,       -0.54912,       -0.14822,   1.0,    0.00000,    0.00000,    0.00000,    2.0,    0.581175,   0.50588,    0.42588},
+        {1,     0,  0.00000,        -0.00000,       -1.00000,   1.0,    0.60392,    0.61490,    0.70000,    1.0,    0.00000,    0.00000,    0.00000},
+        {1,     0,  0.02575,        0.86518,        -0.50081,   1.0,    0.00000,    0.00000,    0.00000,    1.0,    0.59137,    0.51745,    0.63471},
+    },
+	WORGEN = {
         {1,     0,  -0.82249,       -0.54912,       -0.14822,   1.0,    0.00000,    0.00000,    0.00000,    2.0,    0.581175,   0.50588,    0.42588},
         {1,     0,  0.00000,        -0.00000,       -1.00000,   1.0,    0.60392,    0.61490,    0.70000,    1.0,    0.00000,    0.00000,    0.00000},
         {1,     0,  0.02575,        0.86518,        -0.50081,   1.0,    0.00000,    0.00000,    0.00000,    1.0,    0.59137,    0.51745,    0.63471},
