@@ -1,7 +1,6 @@
 # Do not delete the following line!
 ## Interface: 30300
 ##DebugHook.lua
-GlobalStrings.lua
 Constants.lua
 Fonts.xml
 FontStyles.xml
