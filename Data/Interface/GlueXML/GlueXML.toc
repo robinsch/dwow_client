@@ -1,5 +1,4 @@
 ##DebugHook.lua
-GlueStrings.lua
 GlueFonts.xml
 GlueFontStyles.xml
 GlueLocalization.xml
