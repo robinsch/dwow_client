@@ -282,7 +282,7 @@
 												<FontString name="CharacterCreateRaceText" inherits="GlueFontCharacterCreate" justifyH="LEFT">
 													<Size x="220" y="0"/>
 													<Anchors>
-														  <Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceAbilityText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+														<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceAbilityText" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
 													</Anchors>
 												</FontString>
 											</Layer>
@@ -444,59 +444,54 @@
 						<Frames>
 							<CheckButton name="CharacterCreateRaceButton1" inherits="CharacterCreateRaceButtonTemplate" id="1">
 								<Anchors>
-									<Anchor point="TOP" relativePoint="TOP" x="-50" y="-50"/>
+									<Anchor point="TOP" relativePoint="TOP" x="-50" y="-61"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton2" inherits="CharacterCreateRaceButtonTemplate" id="2">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton1" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton1" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton3" inherits="CharacterCreateRaceButtonTemplate" id="3">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton2" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton2" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton4" inherits="CharacterCreateRaceButtonTemplate" id="4">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton3" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton3" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton5" inherits="CharacterCreateRaceButtonTemplate" id="5">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton4" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton4" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton6" inherits="CharacterCreateRaceButtonTemplate" id="6">
-                              <Anchors>
-                                <Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton5" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
-                              </Anchors>
+								<Anchors>
+									<Anchor point="TOP" relativePoint="TOP" x="50" y="-61"/>
+								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton7" inherits="CharacterCreateRaceButtonTemplate" id="7">
 								<Anchors>
-                                  <Anchor point="TOP" relativePoint="TOP" x="50" y="-50"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton6" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton8" inherits="CharacterCreateRaceButtonTemplate" id="8">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton7" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton7" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton9" inherits="CharacterCreateRaceButtonTemplate" id="9">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton8" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton8" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
 							<CheckButton name="CharacterCreateRaceButton10" inherits="CharacterCreateRaceButtonTemplate" id="10">
 								<Anchors>
-									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton9" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+									<Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton9" relativePoint="BOTTOMLEFT" x="0" y="-21"/>
 								</Anchors>
 							</CheckButton>
-                          <CheckButton name="CharacterCreateRaceButton11" inherits="CharacterCreateRaceButtonTemplate" id="11">
-                            <Anchors>
-                              <Anchor point="TOPLEFT" relativeTo="CharacterCreateRaceButton10" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
-                            </Anchors>
-                          </CheckButton>
 							<CheckButton name="CharacterCreateGenderButtonMale" inherits="CharacterCreateGenderButtonTemplate">
 								<Anchors>
 									<Anchor point="TOP" x="-20" y="-392"/>
