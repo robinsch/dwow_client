@@ -934,6 +934,56 @@
 					</Anchor>
 				</Anchors>
 			</Frame>
+            <Frame name="WorldMapStoryFrame">
+                <Size>
+                    <AbsDimension x="283" y="50"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="WorldMapPositioningGuide">
+                        <Offset>
+                            <AbsDimension x="-32" y="-69"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentTexture" file="Interface\QuestFrame\QuestLogCampaignHeadersCombined">
+                            <Size>
+                                <AbsDimension x="262" y="54"/>
+                            </Size>
+                        </Texture>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentTitle" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset>
+                                        <AbsDimension x="20" y="-9"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentProgressLabel" inherits="GameFontHighlightSmall" text="STORY_PROGRESS">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT">
+                                    <Offset>
+                                        <AbsDimension x="0" y="-4"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                        <FontString name="$parentProgressCount" inherits="GameFontHighlightSmall">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentProgressLabel" relativePoint="RIGHT">
+                                    <Offset>
+                                        <AbsDimension x="2" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
 			<ScrollFrame name="WorldMapQuestScrollFrame" inherits="UIPanelScrollFrameTemplate">
 				<Size>
 					<AbsDimension x="283" y="670"/>

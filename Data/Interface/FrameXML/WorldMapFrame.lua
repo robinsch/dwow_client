@@ -1337,6 +1337,7 @@ function WorldMap_ToggleSizeUp()
 	WorldMapQuestDetailScrollFrame:Show();
 	WorldMapQuestRewardScrollFrame:Show();		
 	WorldMapFrameSizeDownButton:Show();
+	WorldMapStoryFrame:Show();
 	-- hide small window elements
 	WorldMapTitleButton:Hide();
 	WorldMapFrameMiniBorderLeft:Hide();
@@ -1386,6 +1387,7 @@ function WorldMap_ToggleSizeDown()
 	WorldMapQuestDetailScrollFrame:Hide();
 	WorldMapQuestRewardScrollFrame:Hide();		
 	WorldMapFrameSizeDownButton:Hide();
+	WorldMapStoryFrame:Hide();
 	ToggleMapFramerate();	
 	-- show small window elements
 	WorldMapTitleButton:Show();
@@ -1492,6 +1494,7 @@ function WorldMapFrame_SetQuestMapView()
 	WorldMapQuestDetailScrollFrame:Show();
 	WorldMapQuestRewardScrollFrame:Show();
 	WorldMapQuestScrollFrame:Show();
+	WorldMapStoryFrame:Show();
 	for i = NUM_WORLDMAP_DETAIL_TILES + 1, NUM_WORLDMAP_DETAIL_TILES + NUM_WORLDMAP_PATCH_TILES do
 		_G["WorldMapFrameTexture"..i]:Hide();
 	end
@@ -1506,6 +1509,7 @@ function WorldMapFrame_SetFullMapView()
 	WorldMapQuestDetailScrollFrame:Hide();
 	WorldMapQuestRewardScrollFrame:Hide();
 	WorldMapQuestScrollFrame:Hide();
+	WorldMapStoryFrame:Hide();
 	for i = NUM_WORLDMAP_DETAIL_TILES + 1, NUM_WORLDMAP_DETAIL_TILES + NUM_WORLDMAP_PATCH_TILES do
 		_G["WorldMapFrameTexture"..i]:Show();
 	end
@@ -1558,6 +1562,8 @@ function WorldMapFrame_UpdateQuests()
 			questFrame = WorldMapFrame_GetQuestFrame(questCount, isComplete);
 			if ( lastFrame ) then
 				questFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0);
+			elseif ( WorldMapStoryFrameTitle:IsVisible() ) then
+				questFrame:SetPoint("TOPLEFT", WorldMapStoryFrameTitle, "BOTTOMLEFT", 2, 0);
 			else
 				questFrame:SetPoint("TOPLEFT", WorldMapQuestScrollChildFrame, "TOPLEFT", 2, 0);
 			end
@@ -1631,6 +1637,27 @@ function WorldMapFrame_UpdateQuests()
 	end
 	QuestPOI_HideButtons("WorldMapPOIFrame", QUEST_POI_NUMERIC, numPOINumeric + 1);
 	QuestPOI_HideButtons("WorldMapPOIFrame", QUEST_POI_COMPLETE_SWAP, numPOICompleteSwap + 1);
+
+	-- Display the zone story stuff if appropriate, updating separators as necessary...TODO: Refactor this out as well
+	local mapID = GetCurrentMapAreaID() - 1;
+	local storyAchievementID, x1, x2, y1, y2 = C_QuestLog.GetZoneStoryInfo(mapID);
+
+	if storyAchievementID then
+		WorldMapStoryFrameTitle:SetText(GetZoneText());
+		local numCriteria = GetAchievementNumCriteria(storyAchievementID);
+		local completedCriteria = 0;
+		for i = 1, numCriteria do
+			local _, _, completed = GetAchievementCriteriaInfo(storyAchievementID, i);
+			if ( completed ) then
+				completedCriteria = completedCriteria + 1;
+			end
+		end
+
+		WorldMapStoryFrameProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
+		WorldMapStoryFrameTexture:SetTexCoord(x1, x2, y1, y2);
+	else
+		WorldMapStoryFrame:Hide();
+	end
 	
 	return questCount;
 end
