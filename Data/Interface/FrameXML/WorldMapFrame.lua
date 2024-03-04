@@ -1337,7 +1337,7 @@ function WorldMap_ToggleSizeUp()
 	WorldMapQuestDetailScrollFrame:Show();
 	WorldMapQuestRewardScrollFrame:Show();		
 	WorldMapFrameSizeDownButton:Show();
-	WorldMapStoryFrame:Show();
+	WorldMapFrameStoryHeader:Show();
 	-- hide small window elements
 	WorldMapTitleButton:Hide();
 	WorldMapFrameMiniBorderLeft:Hide();
@@ -1387,7 +1387,7 @@ function WorldMap_ToggleSizeDown()
 	WorldMapQuestDetailScrollFrame:Hide();
 	WorldMapQuestRewardScrollFrame:Hide();		
 	WorldMapFrameSizeDownButton:Hide();
-	WorldMapStoryFrame:Hide();
+	WorldMapFrameStoryHeader:Hide();
 	ToggleMapFramerate();	
 	-- show small window elements
 	WorldMapTitleButton:Show();
@@ -1494,7 +1494,7 @@ function WorldMapFrame_SetQuestMapView()
 	WorldMapQuestDetailScrollFrame:Show();
 	WorldMapQuestRewardScrollFrame:Show();
 	WorldMapQuestScrollFrame:Show();
-	WorldMapStoryFrame:Show();
+	WorldMapFrameStoryHeader:Show();
 	for i = NUM_WORLDMAP_DETAIL_TILES + 1, NUM_WORLDMAP_DETAIL_TILES + NUM_WORLDMAP_PATCH_TILES do
 		_G["WorldMapFrameTexture"..i]:Hide();
 	end
@@ -1509,7 +1509,7 @@ function WorldMapFrame_SetFullMapView()
 	WorldMapQuestDetailScrollFrame:Hide();
 	WorldMapQuestRewardScrollFrame:Hide();
 	WorldMapQuestScrollFrame:Hide();
-	WorldMapStoryFrame:Hide();
+	WorldMapFrameStoryHeader:Hide();
 	for i = NUM_WORLDMAP_DETAIL_TILES + 1, NUM_WORLDMAP_DETAIL_TILES + NUM_WORLDMAP_PATCH_TILES do
 		_G["WorldMapFrameTexture"..i]:Show();
 	end
@@ -1562,8 +1562,8 @@ function WorldMapFrame_UpdateQuests()
 			questFrame = WorldMapFrame_GetQuestFrame(questCount, isComplete);
 			if ( lastFrame ) then
 				questFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0);
-			elseif ( WorldMapStoryFrameTitle:IsVisible() ) then
-				questFrame:SetPoint("TOPLEFT", WorldMapStoryFrameTitle, "BOTTOMLEFT", 2, 0);
+			elseif ( WorldMapFrameStoryHeader:IsVisible() ) then
+				questFrame:SetPoint("TOPLEFT", WorldMapFrameStoryHeader, "TOPLEFT", 0, -45);
 			else
 				questFrame:SetPoint("TOPLEFT", WorldMapQuestScrollChildFrame, "TOPLEFT", 2, 0);
 			end
@@ -1643,7 +1643,7 @@ function WorldMapFrame_UpdateQuests()
 	local storyAchievementID, x1, x2, y1, y2 = C_QuestLog.GetZoneStoryInfo(mapID);
 
 	if storyAchievementID then
-		WorldMapStoryFrameTitle:SetText(GetZoneText());
+		WorldMapFrameStoryHeaderText:SetText(GetZoneText());
 		local numCriteria = GetAchievementNumCriteria(storyAchievementID);
 		local completedCriteria = 0;
 		for i = 1, numCriteria do
@@ -1653,8 +1653,8 @@ function WorldMapFrame_UpdateQuests()
 			end
 		end
 
-		WorldMapStoryFrameProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
-		WorldMapStoryFrameTexture:SetTexCoord(x1, x2, y1, y2);
+		WorldMapFrameStoryHeaderProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
+		WorldMapFrameStoryHeaderBackground:SetTexCoord(x1, x2, y1, y2);
 	else
 		WorldMapStoryFrame:Hide();
 	end
@@ -2196,4 +2196,62 @@ function WorldMapTrackQuest_Toggle(isChecked)
 	end
 	WatchFrame_Update();
 	WorldMapFrame_DisplayQuests(WORLDMAP_SETTINGS.selectedQuestId);	
+end
+
+function WorldMapFrame_ShowStoryTooltip(self)
+	local mapID = GetCurrentMapAreaID() - 1;
+	local storyAchievementID = C_QuestLog.GetZoneStoryInfo(mapID);
+	local maxWidth = 0;
+	local totalHeight = 0;
+
+	-- Clear out old quest criteria
+	for i = 1, 12 do
+		_G["WorldMapFrameStoryTooltipLine"..i]:Hide();
+	end
+	for i = 1, 12 do
+		_G["WorldMapFrameStoryTooltipCheckMark"..i]:Hide();
+	end
+
+	local numCriteria = GetAchievementNumCriteria(storyAchievementID);
+	local completedCriteria = 0;
+	for i = 1, numCriteria do
+		local title, _, completed = GetAchievementCriteriaInfo(storyAchievementID, i);
+		if ( completed ) then
+			completedCriteria = completedCriteria + 1;
+		end
+		if ( not _G["WorldMapFrameStoryTooltipLine"..i] ) then
+			local fontString = WorldMapFrameStoryTooltip:CreateFontString(nil, "ARTWORK", "GameFontHighlight");
+			fontString:SetPoint("TOP", _G["WorldMapFrameStoryTooltipLine"..i-1], "BOTTOM", 0, -6);
+			_G["WorldMapFrameStoryTooltipLine"..i] = fontString;
+		end
+		if ( completed ) then
+			_G["WorldMapFrameStoryTooltipLine"..i]:SetText(GREEN_FONT_COLOR_CODE..title..FONT_COLOR_CODE_CLOSE);
+			_G["WorldMapFrameStoryTooltipLine"..i]:SetPoint("LEFT", 30, 0);
+			_G["WorldMapFrameStoryTooltipCheckMark"..i]:SetTexture("Interface\\Scenarios\\ScenarioIcon-Check" );
+			_G["WorldMapFrameStoryTooltipCheckMark"..i]:ClearAllPoints();
+			_G["WorldMapFrameStoryTooltipCheckMark"..i]:SetPoint("RIGHT", _G["WorldMapFrameStoryTooltipLine"..i], "LEFT", -4, -1);
+			_G["WorldMapFrameStoryTooltipCheckMark"..i]:Show();
+			maxWidth = max(maxWidth, _G["WorldMapFrameStoryTooltipLine"..i]:GetWidth() + 20);
+		else
+			_G["WorldMapFrameStoryTooltipLine"..i]:SetText(GRAY_FONT_COLOR_CODE..title..FONT_COLOR_CODE_CLOSE);
+			_G["WorldMapFrameStoryTooltipLine"..i]:SetPoint("LEFT", 10, 0);
+			_G["WorldMapFrameStoryTooltipCheckMark"..i]:Hide();
+			maxWidth = max(maxWidth, _G["WorldMapFrameStoryTooltipLine"..i]:GetWidth());
+		end
+		_G["WorldMapFrameStoryTooltipLine"..i]:Show();
+		totalHeight = totalHeight + _G["WorldMapFrameStoryTooltipLine"..i]:GetHeight() + 6;
+	end
+
+	maxWidth = max(maxWidth, WorldMapFrameStoryTooltipProgressLabel:GetWidth());
+	totalHeight = totalHeight + WorldMapFrameStoryTooltipProgressLabel:GetHeight();
+
+	WorldMapFrameStoryTooltip:ClearAllPoints();
+	local tooltipWidth = max(240, maxWidth + 20);
+	WorldMapFrameStoryTooltip:SetPoint("TOPRIGHT", WorldMapDetailFrame, "TOPRIGHT", -25, -25);
+	WorldMapFrameStoryTooltip:SetSize(tooltipWidth, totalHeight);
+	WorldMapFrameStoryTooltip:Show();
+end
+
+function WorldMapFrame_HideStoryTooltip(self)
+	WorldMapFrameStoryTooltip:Hide();
 end
