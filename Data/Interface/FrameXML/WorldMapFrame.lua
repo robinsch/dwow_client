@@ -1656,7 +1656,7 @@ function WorldMapFrame_UpdateQuests()
 		WorldMapFrameStoryHeaderProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
 		WorldMapFrameStoryHeaderBackground:SetTexCoord(x1, x2, y1, y2);
 	else
-		WorldMapStoryFrame:Hide();
+		WorldMapFrameStoryHeader:Hide();
 	end
 	
 	return questCount;
@@ -2202,7 +2202,7 @@ function WorldMapFrame_ShowStoryTooltip(self)
 	local mapID = GetCurrentMapAreaID() - 1;
 	local storyAchievementID = C_QuestLog.GetZoneStoryInfo(mapID);
 	local maxWidth = 0;
-	local totalHeight = 0;
+	local totalHeight = 20;
 
 	-- Clear out old quest criteria
 	for i = 1, 12 do
@@ -2214,15 +2214,10 @@ function WorldMapFrame_ShowStoryTooltip(self)
 
 	local numCriteria = GetAchievementNumCriteria(storyAchievementID);
 	local completedCriteria = 0;
-	for i = 1, numCriteria do
+	for i = 1, min(numCriteria, 12) do
 		local title, _, completed = GetAchievementCriteriaInfo(storyAchievementID, i);
 		if ( completed ) then
 			completedCriteria = completedCriteria + 1;
-		end
-		if ( not _G["WorldMapFrameStoryTooltipLine"..i] ) then
-			local fontString = WorldMapFrameStoryTooltip:CreateFontString(nil, "ARTWORK", "GameFontHighlight");
-			fontString:SetPoint("TOP", _G["WorldMapFrameStoryTooltipLine"..i-1], "BOTTOM", 0, -6);
-			_G["WorldMapFrameStoryTooltipLine"..i] = fontString;
 		end
 		if ( completed ) then
 			_G["WorldMapFrameStoryTooltipLine"..i]:SetText(GREEN_FONT_COLOR_CODE..title..FONT_COLOR_CODE_CLOSE);
@@ -2239,7 +2234,7 @@ function WorldMapFrame_ShowStoryTooltip(self)
 			maxWidth = max(maxWidth, _G["WorldMapFrameStoryTooltipLine"..i]:GetWidth());
 		end
 		_G["WorldMapFrameStoryTooltipLine"..i]:Show();
-		totalHeight = totalHeight + _G["WorldMapFrameStoryTooltipLine"..i]:GetHeight() + 6;
+		totalHeight = totalHeight + _G["WorldMapFrameStoryTooltipLine"..i]:GetHeight() + 4.25;
 	end
 
 	maxWidth = max(maxWidth, WorldMapFrameStoryTooltipProgressLabel:GetWidth());
