@@ -1467,6 +1467,24 @@ SlashCmdList["CONSOLE"] = function(msg)
 	ConsoleExec(msg);
 end
 
+SLASH_CVAR1 = "/cvar"
+SlashCmdList["CVAR"] = function(msg)
+	local cvar, value = msg:match("([^%s]+)%s*(.*)")
+	if not cvar then return end
+	if not C_CVar.Exists(cvar) then
+		print("|cffff2222CVar " ..cvar.." does not exist!|r")
+		return
+	end
+
+	if value and value ~= "" then
+		value = value ~= nil and toboolean(value) or tonumber(value) or value
+		C_CVar.Set(cvar, value)
+		SendSystemMessage("Set: " .. cvar .. "->|cffffffff" .. tostring(value) .. "|r")
+	else
+		SendSystemMessage(cvar .. "=|cffffffff" .. tostring(C_CVar.Get(cvar)) .. "|r")
+	end
+end
+
 SlashCmdList["CHATLOG"] = function(msg)
 	local info = ChatTypeInfo["SYSTEM"];
 	if ( LoggingChat() ) then
