@@ -1538,6 +1538,9 @@ function WorldMapFrame_UpdateQuests()
 	
 	local numPOINumeric = 0;
 	local numPOICompleteSwap = 0;
+
+	local mapID = GetCurrentMapAreaID() - 1;
+	local storyAchievementID, x1, x2, y1, y2 = C_QuestLog.GetZoneStoryInfo(mapID);
 	
 	numEntries = QuestMapUpdateAllQuests();
 	WorldMapFrame_ClearQuestPOIs();
@@ -1562,10 +1565,8 @@ function WorldMapFrame_UpdateQuests()
 			questFrame = WorldMapFrame_GetQuestFrame(questCount, isComplete);
 			if ( lastFrame ) then
 				questFrame:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0);
-			elseif ( WorldMapFrameStoryHeader:IsVisible() ) then
-				questFrame:SetPoint("TOPLEFT", WorldMapFrameStoryHeader, "TOPLEFT", 0, -45);
 			else
-				questFrame:SetPoint("TOPLEFT", WorldMapQuestScrollChildFrame, "TOPLEFT", 2, 0);
+				questFrame:SetPoint("TOPLEFT", WorldMapQuestScrollChildFrame, "TOPLEFT", 2, storyAchievementID and -50 or 0);
 			end
 			-- set up indexes
 			questFrame.questId = questId;
@@ -1639,24 +1640,22 @@ function WorldMapFrame_UpdateQuests()
 	QuestPOI_HideButtons("WorldMapPOIFrame", QUEST_POI_COMPLETE_SWAP, numPOICompleteSwap + 1);
 
 	-- Display the zone story stuff if appropriate, updating separators as necessary...TODO: Refactor this out as well
-	local mapID = GetCurrentMapAreaID() - 1;
-	local storyAchievementID, x1, x2, y1, y2 = C_QuestLog.GetZoneStoryInfo(mapID);
-
-	if storyAchievementID then
-		WorldMapFrameStoryHeaderText:SetText(GetZoneText());
-		local numCriteria = GetAchievementNumCriteria(storyAchievementID);
-		local completedCriteria = 0;
-		for i = 1, numCriteria do
-			local _, _, completed = GetAchievementCriteriaInfo(storyAchievementID, i);
-			if ( completed ) then
-				completedCriteria = completedCriteria + 1;
+	if WorldMapFrame.numQuests ~= 0 then
+		if storyAchievementID then
+			WorldMapFrameStoryHeader:Show();
+			WorldMapFrameStoryHeaderText:SetText(GetZoneText());
+			local numCriteria = GetAchievementNumCriteria(storyAchievementID);
+			local completedCriteria = 0;
+			for i = 1, numCriteria do
+				local _, _, completed = GetAchievementCriteriaInfo(storyAchievementID, i);
+				if ( completed ) then
+					completedCriteria = completedCriteria + 1;
+				end
 			end
-		end
 
-		WorldMapFrameStoryHeaderProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
-		WorldMapFrameStoryHeaderBackground:SetTexCoord(x1, x2, y1, y2);
-	else
-		WorldMapFrameStoryHeader:Hide();
+			WorldMapFrameStoryHeaderProgressCount:SetFormattedText(STORY_CHAPTERS, completedCriteria, numCriteria);
+			WorldMapFrameStoryHeaderBackground:SetTexCoord(x1, x2, y1, y2);
+		end
 	end
 	
 	return questCount;
