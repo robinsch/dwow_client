@@ -1471,17 +1471,17 @@ SLASH_CVAR1 = "/cvar"
 SlashCmdList["CVAR"] = function(msg)
 	local cvar, value = msg:match("([^%s]+)%s*(.*)")
 	if not cvar then return end
-	if not C_CVar.Exists(cvar) then
+	if not GetCVar(cvar) then
 		print("|cffff2222CVar " ..cvar.." does not exist!|r")
 		return
 	end
 
 	if value and value ~= "" then
 		value = value ~= nil and toboolean(value) or tonumber(value) or value
-		C_CVar.Set(cvar, value)
+		SetCVar(cvar, value)
 		SendSystemMessage("Set: " .. cvar .. "->|cffffffff" .. tostring(value) .. "|r")
 	else
-		SendSystemMessage(cvar .. "=|cffffffff" .. tostring(C_CVar.Get(cvar)) .. "|r")
+		SendSystemMessage(cvar .. "=|cffffffff" .. tostring(GetCVar(cvar)) .. "|r")
 	end
 end
 
