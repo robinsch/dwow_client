@@ -74,6 +74,12 @@ UnitPopupButtons["ITEM_QUALITY2_DESC"] = { text = ITEM_QUALITY2_DESC, dist = 0, 
 UnitPopupButtons["ITEM_QUALITY3_DESC"] = { text = ITEM_QUALITY3_DESC, dist = 0, color = ITEM_QUALITY_COLORS[3] };
 UnitPopupButtons["ITEM_QUALITY4_DESC"] = { text = ITEM_QUALITY4_DESC, dist = 0, color = ITEM_QUALITY_COLORS[4] };
 
+UnitPopupButtons["SELECT_LOOT_SPECIALIZATION"] = { text = SELECT_LOOT_SPECIALIZATION, dist = 0, nested = 1, tooltipText = SELECT_LOOT_SPECIALIZATION_TOOLTIP };
+UnitPopupButtons["LOOT_SPECIALIZATION_DEFAULT"] = { text = LOOT_SPECIALIZATION_DEFAULT, dist = 0, checkable = 1, specializationID = 0 };
+UnitPopupButtons["LOOT_SPECIALIZATION_SPEC1"] = { text = "spec1", dist = 0, checkable = 1, specializationID = 0 };
+UnitPopupButtons["LOOT_SPECIALIZATION_SPEC2"] = { text = "spec2", dist = 0, checkable = 1, specializationID = 0 };
+UnitPopupButtons["LOOT_SPECIALIZATION_SPEC3"] = { text = "spec3", dist = 0, checkable = 1, specializationID = 0 };
+
 UnitPopupButtons["OPT_OUT_LOOT_TITLE"] = { text = OPT_OUT_LOOT_TITLE, dist = 0, nested = 1, tooltipText = NEWBIE_TOOLTIP_UNIT_OPT_OUT_LOOT };
 UnitPopupButtons["OPT_OUT_LOOT_ENABLE"] = { text = YES, dist = 0, checkable = 1 };
 UnitPopupButtons["OPT_OUT_LOOT_DISABLE"] = { text = NO, dist = 0, checkable = 1 };
@@ -135,7 +141,7 @@ UnitPopupButtons["CHAT_BAN"] = { text = CHAT_BAN, dist = 0 };
 
 -- First level menus
 UnitPopupMenus = { };
-UnitPopupMenus["SELF"] = { "SET_FOCUS", "PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "LEAVE", "CANCEL" };
+UnitPopupMenus["SELF"] = { "SET_FOCUS", "PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "SELECT_LOOT_SPECIALIZATION", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "LEAVE", "CANCEL" };
 UnitPopupMenus["PET"] = { "SET_FOCUS", "PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "CANCEL" };
 UnitPopupMenus["PARTY"] = { "SET_FOCUS", "MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL" };
 UnitPopupMenus["PLAYER"] = { "SET_FOCUS", "WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL" };
@@ -158,6 +164,7 @@ UnitPopupMenus["BOSS"] = { "SET_FOCUS", "RAID_TARGET_ICON", "CANCEL" };
 UnitPopupMenus["PVP_FLAG"] = { "PVP_ENABLE", "PVP_DISABLE"};
 UnitPopupMenus["LOOT_METHOD"] = { "FREE_FOR_ALL", "ROUND_ROBIN", "MASTER_LOOTER", "GROUP_LOOT", "NEED_BEFORE_GREED", "CANCEL" };
 UnitPopupMenus["LOOT_THRESHOLD"] = { "ITEM_QUALITY2_DESC", "ITEM_QUALITY3_DESC", "ITEM_QUALITY4_DESC", "CANCEL" };
+UnitPopupMenus["SELECT_LOOT_SPECIALIZATION"] = { "LOOT_SPECIALIZATION_DEFAULT","LOOT_SPECIALIZATION_SPEC1", "LOOT_SPECIALIZATION_SPEC2", "LOOT_SPECIALIZATION_SPEC3" };
 UnitPopupMenus["OPT_OUT_LOOT_TITLE"] = { "OPT_OUT_LOOT_ENABLE", "OPT_OUT_LOOT_DISABLE"};
 UnitPopupMenus["DUNGEON_DIFFICULTY"] = { "DUNGEON_DIFFICULTY1", "DUNGEON_DIFFICULTY2" };
 UnitPopupMenus["RAID_DIFFICULTY"] = { "RAID_DIFFICULTY1", "RAID_DIFFICULTY2", "RAID_DIFFICULTY3", "RAID_DIFFICULTY4" };
@@ -186,6 +193,22 @@ UnitPopupFrames = {
 	"PartyMemberFrame4DropDown",
 	"FriendsDropDown"
 };
+
+function GetSpecialization()
+	local specGroup = 0;
+	local maxPointsSpent = 0;
+
+	for index = 1, 3 do
+		local pointsSpent = select(3, GetTalentTabInfo(index));
+		print(pointsSpent);
+		if ( pointsSpent > maxPointsSpent ) then
+			maxPointsSpent = pointsSpent;
+			specGroup = index;
+		end
+	end
+
+	return specGroup;
+end
 
 function UnitPopup_ShowMenu (dropdownMenu, which, unit, name, userData)
 	local server = nil;
@@ -255,6 +278,29 @@ function UnitPopup_ShowMenu (dropdownMenu, which, unit, name, userData)
 			UnitPopupButtons["RAID_DIFFICULTY"].nested = 1;
 		else
 			UnitPopupButtons["RAID_DIFFICULTY"].nested = nil;
+		end
+	end
+
+	-- setup default Loot Specialization
+	local specPopupButton = UnitPopupButtons["LOOT_SPECIALIZATION_DEFAULT"];
+	local specIndex = GetSpecialization();
+	if ( specIndex) then
+		local specID, specName = GetSpecializationInfo(specIndex);
+		if ( specName ) then
+			specPopupButton.text = format(LOOT_SPECIALIZATION_DEFAULT, specName);
+		end
+	end
+	-- setup specialization coices for Loot Specialization
+	for index = 1, 3 do
+		specPopupButton = UnitPopupButtons["LOOT_SPECIALIZATION_SPEC"..index];
+		if ( specPopupButton ) then
+			local id, name = GetSpecializationInfo(index);
+			if ( id ) then
+				specPopupButton.specializationID = id;
+				specPopupButton.text = name;
+			else
+				specPopupButton.specializationID = -1;
+			end
 		end
 	end
 	
@@ -350,6 +396,10 @@ function UnitPopup_ShowMenu (dropdownMenu, which, unit, name, userData)
 				end
 			elseif ( value == "PVP_ENABLE" ) then
 				if ( GetPVPDesired() == 1 ) then
+					info.checked = 1;
+				end
+			elseif ( strsub(value, 1, 20) == "LOOT_SPECIALIZATION_" ) then
+				if ( GetLootSpecialization() == UnitPopupButtons[value].specializationID ) then
 					info.checked = 1;
 				end
 			elseif ( value == "PVP_DISABLE" ) then
@@ -1096,6 +1146,14 @@ function UnitPopup_OnUpdate (elapsed)
 						if ( isLeader == 0 or HasLFGRestrictions() ) then
 							enable = 0;
 						end
+					elseif ( value == "SELECT_LOOT_SPECIALIZATION" ) then
+						if ( not GetSpecialization() ) then
+							UnitPopupShown[UIDROPDOWNMENU_MENU_LEVEL][index] = 0;
+						end
+					elseif ( strsub(value, 1, 20) == "LOOT_SPECIALIZATION_" ) then
+						if ( UnitPopupButtons[value].specializationID == -1 ) then
+							UnitPopupShown[UIDROPDOWNMENU_MENU_LEVEL][index] = 0;
+						end
 					elseif ( value == "LOOT_PROMOTE" ) then
 						local lootMethod;
 						local partyMaster, raidMaster;
@@ -1307,6 +1365,8 @@ function UnitPopup_OnClick (self)
 	elseif ( button == "OPT_OUT_LOOT_DISABLE" ) then
 		SetOptOutOfLoot(nil);
 		CloseDropDownMenus();
+	elseif ( strsub(button, 1, 20) == "LOOT_SPECIALIZATION_" ) then
+		SetLootSpecialization(UnitPopupButtons[button].specializationID);
 	elseif ( strsub(button, 1, 18) == "DUNGEON_DIFFICULTY" and (strlen(button) > 18) ) then
 		local dungeonDifficulty = tonumber( strsub(button,19,19) );
 		SetDungeonDifficulty(dungeonDifficulty);
