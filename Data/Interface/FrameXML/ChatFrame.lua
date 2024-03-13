@@ -1471,7 +1471,7 @@ SLASH_CVAR1 = "/cvar"
 SlashCmdList["CVAR"] = function(msg)
 	local cvar, value = msg:match("([^%s]+)%s*(.*)")
 	if not cvar then return end
-	if not GetCVar(cvar) then
+	if GetCVarInfo(cvar) == nil then
 		print("|cffff2222CVar " ..cvar.." does not exist!|r")
 		return
 	end
