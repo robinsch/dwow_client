@@ -195,18 +195,17 @@ UnitPopupFrames = {
 };
 
 function GetSpecialization()
-	local specGroup = 0;
+	local specGroup = 1;
 	local maxPointsSpent = 0;
 
 	for index = 1, 3 do
 		local pointsSpent = select(3, GetTalentTabInfo(index));
-		print(pointsSpent);
 		if ( pointsSpent > maxPointsSpent ) then
 			maxPointsSpent = pointsSpent;
 			specGroup = index;
 		end
 	end
-
+	
 	return specGroup;
 end
 
