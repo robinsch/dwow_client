@@ -23,3 +23,12 @@ PickClassFrame:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+
+local function OnTextChangedHandler(self, leftText, rightText)
+   local level, race, class, unitType = string.match(leftText, "Level (%d+) (%w+) (%w+) %(Player%)")
+   if level and race and class then
+      return string.format("Level %d %s %s / %s (Player)", level, race, class, UnitClassSecondaryName("mouseover"))
+   end
+end
+
+GameTooltip:OnTextChanged(OnTextChangedHandler)
