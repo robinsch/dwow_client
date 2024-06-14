@@ -141,6 +141,7 @@ MovieFrame.xml
 VehicleMenuBar.xml
 AlternatePowerBar.xml
 AnimationSystem.lua
+StreamingFrame.xml
 DWoW_ClassUI.xml
 
 ## add new modules above here
