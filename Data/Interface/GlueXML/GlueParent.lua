@@ -17,6 +17,7 @@ GlueScreenInfo["trialconvert"]	= "TrialConvert";
 GlueScreenInfo["movie"]			= "MovieFrame";
 GlueScreenInfo["credits"]		= "CreditsFrame";
 GlueScreenInfo["options"]		= "OptionsFrame";
+GlueScreenInfo["renderdebug"]	= "RenderDebugModel"
 
 CharModelFogInfo = { };
 CharModelFogInfo["HUMAN"] = { r=0.8, g=0.65, b=0.73, far=222 };
@@ -198,6 +199,11 @@ function GlueParent_OnEvent(event, arg1, arg2, arg3)
 	if ( event == "FRAMES_LOADED" ) then
 		LocalizeFrames();
 	elseif ( event == "SET_GLUE_SCREEN" ) then
+		if arg1 == "login" then
+			if IsRenderDebug and IsRenderDebug() then
+				arg1 = "renderdebug"
+			end
+		end
 		GlueScreenExit(GetCurrentGlueScreenName(), arg1);
 	elseif ( event == "START_GLUE_MUSIC" ) then
 		PlayGlueMusic(CurrentGlueMusic);
@@ -376,7 +382,7 @@ end
 function SetBackgroundModel(model, name)
     local nameupper = strupper(name);
     local path = "Interface\\Glues\\Models\\UI_"..name.."\\UI_"..name..".m2";
-	if ( model == CharacterCreate ) then
+	if ( model == CharacterCreate or model == RenderDebugModel ) then
 		SetCharCustomizeBackground(path);
 	else
 		SetCharSelectBackground(path);

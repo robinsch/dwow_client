@@ -1,4 +1,5 @@
 ##DebugHook.lua
+GlueStrings.lua
 GlueFonts.xml
 GlueFontStyles.xml
 GlueLocalization.xml
@@ -30,6 +31,7 @@ VideoOptionsPanels.xml
 AudioOptionsFrame.xml
 AudioOptionsPanels.xml
 OptionsSelect.xml
+RenderDebugModel.xml
 ##CameraSelect.xml
 
 ## This Always Runs Last, Add New Items above it.
